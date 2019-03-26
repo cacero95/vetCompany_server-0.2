@@ -26,6 +26,7 @@ const client = new Twitter({
     access_token_secret: process.env.twitter_token_secret
 });
 // twitter services
+const params = { screen_name: 'nodejs' };
 app.get('/twitter', (req, res) => {
 
     client.get('https://api.twitter.com/1.1/search/tweets.json?q=basket_best_players', params, (error, tweets, response) => {
