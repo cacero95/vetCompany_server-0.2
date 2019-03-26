@@ -22,7 +22,7 @@ let usuarioSchema = new Schema({
     },
     password: {
         type: String,
-        required: [true, 'La cotraseña es requerida']
+        required: false
     },
     telefono: {
         type: Number,
@@ -56,8 +56,8 @@ let usuarioSchema = new Schema({
     }
 });
 /**
- * funciona para quitar el password del usuarios 
- * cuando se quiera devolver los normal_user de la 
+ * funciona para quitar el password del usuarios
+ * cuando se quiera devolver los normal_user de la
  * aplicación
  */
 usuarioSchema.methods.toJSON = function() {
@@ -73,7 +73,7 @@ usuarioSchema.plugin(unique_validator, {
     message: '{PATH} ya existe'
         /**
            con este {PATH} le indico a mongoose que busque los campos unique
-           y restrinja los registros que tengan el mismo valor en los 
+           y restrinja los registros que tengan el mismo valor en los
            campos
         */
 });
