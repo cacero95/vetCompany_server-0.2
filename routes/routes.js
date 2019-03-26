@@ -55,7 +55,7 @@ app.get('/login_vet', (req, res) => {
                 mensaje: err
             })
         }
-        if (!usuarioDB) { // user no found 
+        if (!usuarioDB) { // user no found
             return res.status(400).json({
                 ok: false,
                 mensaje: err
@@ -129,7 +129,7 @@ app.get('/login_user', (req, res) => {
 /**
  * Cargar usuarios
  */
-app.post('/signUp', (req, res) => {
+app.post('/cargar', (req, res) => {
     let body = req.body;
     let usuario;
     if (body.type == 'normal') {
