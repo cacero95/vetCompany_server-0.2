@@ -29,7 +29,9 @@ const client = new Twitter({
 const params = { screen_name: 'nodejs' };
 app.get('/twitter', (req, res) => {
 
-    client.get('https://api.twitter.com/1.1/search/tweets.json?q=basket_best_players', params, (error, tweets, response) => {
+    let body = req.body;
+    let tema_busqueda = body.tema;
+    client.get(`https://api.twitter.com/1.1/search/tweets.json?q=${tema_busqueda}`, params, (error, tweets, response) => {
         if (error) {
             return res.status(400).json({
                 ok: false,
