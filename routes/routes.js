@@ -27,10 +27,13 @@ const client = new Twitter({
 });
 // twitter services
 const params = { screen_name: 'nodejs' };
-app.get('/twitter', (req, res) => {
+app.post('/twitter', (req, res) => {
 
     let body = req.body;
     let tema_busqueda = body.tema;
+
+    
+
     client.get(`https://api.twitter.com/1.1/search/tweets.json?q=${tema_busqueda}`, params, (error, tweets, response) => {
         if (error) {
             return res.status(400).json({
