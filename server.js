@@ -3,6 +3,8 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const hbs = require('hbs');
+const path = require('path');
 
 
 /**
@@ -26,6 +28,8 @@ app.use((req, res, next) => {
     res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
     next();
 });
+
+app.use(express.static(path.resolve(__dirname, './public')));
 
 
 app.use(require('./routes/routes'));
