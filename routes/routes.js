@@ -32,21 +32,76 @@ app.post('/twitter', (req, res) => {
     let body = req.body;
     let tema_busqueda = body.tema;
 
-    
+    let type = body.type;
 
-    client.get(`https://api.twitter.com/1.1/search/tweets.json?q=${tema_busqueda}`, params, (error, tweets, response) => {
-        if (error) {
-            return res.status(400).json({
-                ok: false,
-                mensaje: err
+    // https://api.twitter.com/1.1/search/tweets.json?q=${tema_busqueda}&count=5 busqueda de tweets sobre un tema
+
+
+    /**
+     * si queremos buscar por hashtag usamos https://api.twitter.com/1.1/search/tweets.json?q=%23programando&result_type=recent
+     */
+    /**
+     * entra al switch case para ver que tipo de servicio se necesita
+     */
+    switch (type) {
+        case 'normal':
+            client.get(`https://api.twitter.com/1.1/lists/members.json?owner_screen_name=cacero95&cursor=-1&list_id=1115750658475528192`, params, (error, tweets, response) => {
+                if (error) {
+                    return res.status(400).json({
+                        ok: false,
+                        mensaje: err
+                    });
+                }
+                res.json({
+                    cuerpo: tweets
+                })
             });
-        }
-        res.json({
-            cuerpo: tweets
-        })
-    });
+            break;
+        case 'cambiar_lista': //obtine las listas en twitter de un usuario ya loggeado
+            client.get(`https://api.twitter.com/1.1/lists/list.json?screen_name=${tema_busqueda}`, params, (error, tweets, response) => {
+                if (error) {
+                    return res.status(400).json({
+                        ok: false,
+                        mensaje: err
+                    });
+                }
+                res.json({
+                    cuerpo: tweets
+                })
+            });
+            break;
+        case 'hashtag':
+            client.get(`https://api.twitter.com/1.1/search/tweets.json?q=%23${tema_busqueda}&result_type=recent`, params, (error, tweets, response) => {
+                if (error) {
+                    return res.status(400).json({
+                        ok: false,
+                        mensaje: err
+                    });
+                }
+                res.json({
+                    cuerpo: tweets
+                })
+            });
+            break;
+        case 'tweets':
+            client.get(`https://api.twitter.com/1.1/search/tweets.json?q=${tema_busqueda}&count=5`, params, (error, tweets, response) => {
+                if (error) {
+                    return res.status(400).json({
+                        ok: false,
+                        mensaje: err
+                    });
+                }
+                res.json({
+                    cuerpo: tweets
+                })
+            })
+
+    }
 
 });
+
+
+
 
 
 
