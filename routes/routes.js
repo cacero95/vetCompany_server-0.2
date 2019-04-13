@@ -80,7 +80,7 @@ app.post('/twitter', (req, res) => {
             });
             break;
         case 'hashtag':
-            client.get(`https://api.twitter.com/1.1/search/tweets.json?q=%23${tema_busqueda}&result_type=recent&lang=es`, params, (error, tweets, response) => {
+            client.get(`https://api.twitter.com/1.1/search/tweets.json?q=%23${tema_busqueda}&result_type=recent`, params, (error, tweets, response) => {
                 if (error) {
                     return res.status(400).json({
                         ok: false,
