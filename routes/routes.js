@@ -4,12 +4,19 @@ const bcrypt = require('bcrypt'); // se encarga de encriptar data
 const app = express();
 // importaciones de la libreria de twitter
 const Twitter = require('twitter');
+
 const _ = require('underscore');
 
 // importamos el modelo de los normal user
 const User = require('../models/user');
 // importamos el modelo de las instituciones
 const Vet = require('../models/instituciones');
+
+//FB.getLoginStatus(response => {
+//    console.log(response);
+//    statusChangeCallback(response);
+//});
+
 /**
  * verifica tokens
  */
@@ -33,6 +40,8 @@ app.post('/twitter', (req, res) => {
     let tema_busqueda = body.tema;
 
     let type = body.type;
+
+    let lenguage = body.idioma;
 
     // https://api.twitter.com/1.1/search/tweets.json?q=${tema_busqueda}&count=5 busqueda de tweets sobre un tema
 
@@ -84,7 +93,7 @@ app.post('/twitter', (req, res) => {
             });
             break;
         case 'tweets':
-            client.get(`https://api.twitter.com/1.1/search/tweets.json?q=${tema_busqueda}&count=5`, params, (error, tweets, response) => {
+            client.get(`https://api.twitter.com/1.1/search/tweets.json?q=${tema_busqueda}&count=10&lang=es`, params, (error, tweets, response) => {
                 if (error) {
                     return res.status(400).json({
                         ok: false,
