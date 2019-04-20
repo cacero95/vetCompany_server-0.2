@@ -1,5 +1,7 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
+const FCM = require('fcm-node');
+const serverKey = 'AAAAlmADi1I:APA91bGsjLbkSuzR9OEBcTKzeCUkls0hoi96k6DLUGY4KSO7_nF538JMyGInm0JVz-3T7RCGMOJvvvZIooYglGR26__VsunVn5um4GWjAsVkJpYdGqluLMz6YiRQONj88XhNPdkcaUfK';
 const bcrypt = require('bcrypt'); // se encarga de encriptar data
 const app = express();
 // importaciones de la libreria de twitter
@@ -109,7 +111,35 @@ app.post('/twitter', (req, res) => {
 
 });
 
-
+app.post('/notificaciones', (req, res) => {
+    let body = req.body;
+    let fcm = new FCM(serverKey);
+    let message = {
+        to: body.token,
+        collapse_key: 'curiosidadandroid',
+        notification: {
+            title: 'Mensaje para andres',
+            body: 'texto del mensaje',
+            click_action: 'FCM_PLUGIN_ACTIVITY'
+        },
+        data: {
+            Usuario: 'Usuario nodejs',
+            Email: 'cacero95@gmail.com'
+        }
+    }
+    fcm.send(message, (err, response) => {
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                mensaje: 'something was wrong in the notifications'
+            });
+        }
+        res.json({
+            ok: true,
+            mensaje: response
+        });
+    });
+});
 
 
 
@@ -231,7 +261,7 @@ app.post('/cargar', (req, res) => {
             return res.status(400).json({
                 ok: false,
                 mensaje: err
-            })
+            });
         }
         res.json({
             ok: true,
@@ -239,5 +269,6 @@ app.post('/cargar', (req, res) => {
         });
     });
 });
+
 
 module.exports = app;
